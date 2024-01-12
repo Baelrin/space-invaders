@@ -1,5 +1,6 @@
 import pygame
 import sys
+from spaceship import Spaceship
 
 pygame.init()
 
@@ -13,6 +14,10 @@ pygame.display.set_caption("Baelrin's Space Invaders")
 
 clock = pygame.time.Clock()
 
+spaceship = Spaceship(SCREEN_WIDTH, SCREEN_HEIGHT)
+spaceship_group = pygame.sprite.GroupSingle()
+spaceship_group.add(spaceship)
+
 while True:
     # Checking for events
     for event in pygame.event.get():
@@ -20,8 +25,12 @@ while True:
             pygame.quit()
             sys.exit()
 
+    # Updating
+    spaceship_group.update()
+
     # Drawing
     screen.fill(GREY)
+    spaceship_group.draw(screen)
 
     pygame.display.update()
     clock.tick(60)
