@@ -31,6 +31,7 @@ while True:
     # Drawing
     screen.fill(GREY)
     spaceship_group.draw(screen)
+    spaceship_group.sprite.lasers_group.draw(screen)
 
     pygame.display.update()
     clock.tick(60)
