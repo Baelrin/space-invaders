@@ -21,7 +21,10 @@ class Game:
         self.alien_lasers_group = pygame.sprite.Group()
         self.mystery_ship_group = pygame.sprite.GroupSingle()
         self.lives = 3
+        self.score = 0
+        self.highscore = 0
         self.run = True
+        self.load_highscore()
         
     def create_obstacles(self):
         obstacle_width = len(grid[0]) * 3
@@ -76,14 +79,36 @@ class Game:
             
     def create_mystery_ship(self):
         self.mystery_ship_group.add(MysteryShip(self.screen_width, self.offset))
-        
+            
+    def check_for_highscore(self):
+        if self.score > self.highscore:
+            self.highscore = self.score
+            
+            with open('highscore.txt', 'w') as file:
+                file.write(str(self.highscore))
+    
+    def load_highscore(self):
+        try:
+            with open('highscore.txt', 'r') as file:
+                self.highscore = int(file.read())
+        except FileNotFoundError:
+            self.highscore = 0
+    
     def check_for_collisions(self):
         # Spaceship
         if self.spaceship_group.sprite.lasers_group:
             for laser_sprite in self.spaceship_group.sprite.lasers_group:
-                if pygame.sprite.spritecollide(laser_sprite, self.aliens_group, True):
-                    laser_sprite.kill()
+                
+                aliens_hit = pygame.sprite.spritecollide(laser_sprite, self.aliens_group, True)
+                if aliens_hit:
+                    for alien in aliens_hit:
+                        self.score += alien.type * 100
+                        self.check_for_highscore()
+                        laser_sprite.kill()
+               
                 if pygame.sprite.spritecollide(laser_sprite, self.mystery_ship_group, True):
+                    self.score += 500
+                    self.check_for_highscore()
                     laser_sprite.kill()
                 
                 for obstacle in self.obstacles:
@@ -118,9 +143,14 @@ class Game:
     def reset(self):
         self.run = True
         self.lives = 3
+        self.score = 0
         self.spaceship_group.sprite.reset()
         self.aliens_group.empty()
         self.alien_lasers_group.empty()
         self.mystery_ship_group.empty()
         self.create_aliens()
         self.obstacles = self.create_obstacles()
+        
+    
+            
+    

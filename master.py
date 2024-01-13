@@ -15,6 +15,8 @@ YELLOW = (243, 216, 63)
 font = pygame.font.Font('Font/monogram.ttf', 40)
 level_surface = font.render('BATTLE 01', False, YELLOW)
 game_over_surface = font.render('EARTH LOST', False, YELLOW)
+score_text_surface = font.render('SCORE', False, YELLOW)
+highscore_text_surface = font.render('HIGH-SCORE', False, YELLOW)
 
 screen = pygame.display.set_mode(
     (SCREEN_WIDTH + OFFSET, SCREEN_HEIGHT + 2*OFFSET))
@@ -72,6 +74,14 @@ while True:
         screen.blit(game.spaceship_group.sprite.image, (x, 745))
         x += 50
     
+    formatted_score = str(game.score).zfill(5)
+    formatted_highscore = str(game.highscore).zfill(5)
+    score_surface = font.render(str(formatted_score), False, YELLOW)
+    highscore_surface = font.render(str(formatted_highscore), False, YELLOW)
+    screen.blit(score_text_surface, (50, 15, 50, 50))
+    screen.blit(score_surface, (50, 40, 50, 50))
+    screen.blit(highscore_text_surface, (550, 15, 50, 50))
+    screen.blit(highscore_surface, (625, 40, 50, 50))
     
     game.spaceship_group.draw(screen)
     game.spaceship_group.sprite.lasers_group.draw(screen)
