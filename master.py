@@ -41,6 +41,7 @@ while True:
     game.move_aliens()
     game.alien_lasers_group.update()
     game.mystery_ship_group.update()
+    game.check_for_collisions()
 
     # Drawing
     screen.fill(GREY)
