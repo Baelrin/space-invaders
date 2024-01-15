@@ -41,10 +41,8 @@ class Spaceship(pygame.sprite.Sprite):
         self.recharge_laser()
 
     def constrain_movement(self):
-        if self.rect.right > self.screen_width:
-            self.rect.right = self.screen_width
-        if self.rect.left < self.offset:
-            self.rect.left = self.offset
+        self.rect.right = min(self.rect.right, self.screen_width)
+        self.rect.left = max(self.rect.left, self.offset)
 
     def recharge_laser(self):
         if not self.laser_ready:
