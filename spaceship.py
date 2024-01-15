@@ -55,8 +55,6 @@ class Spaceship(pygame.sprite.Sprite):
             current_time = pygame.time.get_ticks()
             if current_time - self.laser_time >= self.laser_delay:
                 self.laser_ready = True
-        else:
-            print("'Error: Laser can't be recharged")
 
     def reset(self):
         if self.image is not None:
