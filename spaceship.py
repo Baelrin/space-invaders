@@ -48,7 +48,7 @@ class Spaceship(pygame.sprite.Sprite):
             self.rect.right = min(self.rect.right, self.screen_width)
             self.rect.left = max(self.rect.left, self.offset)
         else:
-            print("'Error: Laser can't be recharged")
+            print("Error: Laser can't be recharged")
 
     def recharge_laser(self):
         if not self.laser_ready:
