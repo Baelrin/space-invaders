@@ -17,7 +17,7 @@ This is a classic arcade game where the player controls a spaceship and shoots a
 To install and play the game, you need to have Python and Pygame installed on your computer. Once you have those, clone the repository and navigate to the project directory. Then, you can run the game by executing the `master.py` script.
 
 ```bash
-git clone https://github.com/yourusername/space-invaders.git
+git clone https://github.com/Baelrin/space-invaders.git
 cd space-invaders
 python master.py
 ```
