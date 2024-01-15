@@ -21,17 +21,20 @@ class Spaceship(pygame.sprite.Sprite):
     def get_user_input(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] and self.rect is not None:
             self.rect.x += self.speed
 
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] and self.rect is not None:
             self.rect.x -= self.speed
 
         if keys[pygame.K_SPACE] and self.laser_ready:
             self.laser_ready = False
-            laser = Laser(self.rect.center, 5, self.screen_height)
-            self.lasers_group.add(laser)
-            self.laser_time = pygame.time.get_ticks()
+            if self.rect is not None:
+                laser = Laser(self.rect.center, 5, self.screen_height)
+                self.lasers_group.add(laser)
+                self.laser_time = pygame.time.get_ticks()
+            else:
+                print("Warning: self.rect is None")
             self.laser_sound.play()
 
     def update(self):
@@ -41,15 +44,23 @@ class Spaceship(pygame.sprite.Sprite):
         self.recharge_laser()
 
     def constrain_movement(self):
-        self.rect.right = min(self.rect.right, self.screen_width)
-        self.rect.left = max(self.rect.left, self.offset)
+        if self.rect is not None:
+            self.rect.right = min(self.rect.right, self.screen_width)
+            self.rect.left = max(self.rect.left, self.offset)
+        else:
+            print("'Error: Laser can't be recharged")
 
     def recharge_laser(self):
         if not self.laser_ready:
             current_time = pygame.time.get_ticks()
             if current_time - self.laser_time >= self.laser_delay:
                 self.laser_ready = True
+        else:
+            print("'Error: Laser can't be recharged")
 
     def reset(self):
-        self.rect = self.image.get_rect(midbottom = ((self.screen_width + self.offset)/2, self.screen_height))
-        self.lasers_group.empty()
+        if self.image is not None:
+            self.rect = self.image.get_rect(midbottom = ((self.screen_width + self.offset)/2, self.screen_height))
+            self.lasers_group.empty()
+        else:
+            print('Error: Image not loaded')
