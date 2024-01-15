@@ -10,7 +10,10 @@ class Alien(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft = (x, y))
         
     def update(self, direction):
-        self.rect.x += direction
+        if self.rect is not None:
+            self.rect.x += direction
+        else:
+            print('Error: self.rect is None')
         
 class MysteryShip(pygame.sprite.Sprite):
     def __init__(self, screen_width, offset):
